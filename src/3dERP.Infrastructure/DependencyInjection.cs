@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ThreeDErp.Application.Customers;
 using ThreeDErp.Infrastructure.Persistence;
+using ThreeDErp.Infrastructure.Persistence.Repositories;
 
 namespace ThreeDErp.Infrastructure;
 
@@ -20,6 +22,8 @@ public static class DependencyInjection
                 sql.MigrationsAssembly(typeof(ErpDbContext).Assembly.FullName);
                 sql.EnableRetryOnFailure(3);
             }));
+
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
 
         return services;
     }

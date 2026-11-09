@@ -1,14 +1,20 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using ThreeDErp.Api.Endpoints;
+using ThreeDErp.Api.Middleware;
+using ThreeDErp.Application.Customers;
 using ThreeDErp.Infrastructure;
 using ThreeDErp.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<ApiExceptionHandler>();
 builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddScoped<CustomerRequestValidator>();
+builder.Services.AddScoped<CustomerService>();
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ErpDbContext>("database");
 
@@ -46,6 +52,8 @@ app.MapGet("/api/v1/meta", () => Results.Ok(new
     environment = app.Environment.EnvironmentName,
     utcNow = DateTime.UtcNow
 }));
+
+app.MapCustomerEndpoints();
 
 app.MapHealthChecks("/health");
 

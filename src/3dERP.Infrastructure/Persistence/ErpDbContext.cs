@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ThreeDErp.Domain.Customers;
 
 namespace ThreeDErp.Infrastructure.Persistence;
 
@@ -8,6 +9,8 @@ namespace ThreeDErp.Infrastructure.Persistence;
 /// </summary>
 public sealed class ErpDbContext(DbContextOptions<ErpDbContext> options) : DbContext(options)
 {
+    public DbSet<Customer> Customers => Set<Customer>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ErpDbContext).Assembly);
