@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ThreeDErp.Domain.Customers;
+using ThreeDErp.Domain.Materials;
 
 namespace ThreeDErp.Infrastructure.Persistence;
 
@@ -10,6 +11,8 @@ namespace ThreeDErp.Infrastructure.Persistence;
 public sealed class ErpDbContext(DbContextOptions<ErpDbContext> options) : DbContext(options)
 {
     public DbSet<Customer> Customers => Set<Customer>();
+
+    public DbSet<Material> Materials => Set<Material>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

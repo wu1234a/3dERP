@@ -4,6 +4,7 @@ using Scalar.AspNetCore;
 using ThreeDErp.Api.Endpoints;
 using ThreeDErp.Api.Middleware;
 using ThreeDErp.Application.Customers;
+using ThreeDErp.Application.Materials;
 using ThreeDErp.Infrastructure;
 using ThreeDErp.Infrastructure.Persistence;
 
@@ -15,6 +16,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<CustomerRequestValidator>();
 builder.Services.AddScoped<CustomerService>();
+builder.Services.AddScoped<MaterialRequestValidator>();
+builder.Services.AddScoped<MaterialService>();
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ErpDbContext>("database");
 
@@ -54,7 +57,13 @@ app.MapGet("/api/v1/meta", () => Results.Ok(new
 }));
 
 app.MapCustomerEndpoints();
+app.MapMaterialEndpoints();
 
 app.MapHealthChecks("/health");
 
 app.Run();
+
+/// <summary>
+/// 供 WebApplicationFactory 集成测试引用（minimal hosting 的入口类）。
+/// </summary>
+public partial class Program;
