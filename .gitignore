@@ -1,5 +1,13 @@
-﻿bin/
+bin/
 obj/
 node_modules/
 dist/
 .vs/
+.vite/
+coverage/
+TestResults/
+*.log
+*.user
+*.suo
+.env
+.env.local

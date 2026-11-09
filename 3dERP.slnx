@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/3dERP.Api/3dERP.Api.csproj" />
+    <Project Path="src/3dERP.Application/3dERP.Application.csproj" />
+    <Project Path="src/3dERP.Domain/3dERP.Domain.csproj" />
+    <Project Path="src/3dERP.Infrastructure/3dERP.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/3dERP.IntegrationTests/3dERP.IntegrationTests.csproj" />
+    <Project Path="tests/3dERP.UnitTests/3dERP.UnitTests.csproj" />
+  </Folder>
+</Solution>
