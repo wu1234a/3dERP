@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ThreeDErp.Domain.Customers;
 using ThreeDErp.Domain.Materials;
 using ThreeDErp.Domain.Suppliers;
+using ThreeDErp.Domain.Warehouses;
 
 namespace ThreeDErp.Infrastructure.Persistence;
 
@@ -16,6 +17,8 @@ public sealed class ErpDbContext(DbContextOptions<ErpDbContext> options) : DbCon
     public DbSet<Material> Materials => Set<Material>();
 
     public DbSet<Supplier> Suppliers => Set<Supplier>();
+
+    public DbSet<Warehouse> Warehouses => Set<Warehouse>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -6,6 +6,7 @@ using ThreeDErp.Api.Middleware;
 using ThreeDErp.Application.Customers;
 using ThreeDErp.Application.Materials;
 using ThreeDErp.Application.Suppliers;
+using ThreeDErp.Application.Warehouses;
 using ThreeDErp.Infrastructure;
 using ThreeDErp.Infrastructure.Persistence;
 
@@ -21,6 +22,8 @@ builder.Services.AddScoped<MaterialRequestValidator>();
 builder.Services.AddScoped<MaterialService>();
 builder.Services.AddScoped<SupplierRequestValidator>();
 builder.Services.AddScoped<SupplierService>();
+builder.Services.AddScoped<WarehouseRequestValidator>();
+builder.Services.AddScoped<WarehouseService>();
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ErpDbContext>("database");
 
@@ -62,6 +65,7 @@ app.MapGet("/api/v1/meta", () => Results.Ok(new
 app.MapCustomerEndpoints();
 app.MapMaterialEndpoints();
 app.MapSupplierEndpoints();
+app.MapWarehouseEndpoints();
 
 app.MapHealthChecks("/health");
 
