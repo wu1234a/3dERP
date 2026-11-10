@@ -383,6 +383,13 @@ onMounted(loadMaterials)
           物料
         </RouterLink>
         <RouterLink
+          to="/master-data/suppliers"
+          class="rounded-lg px-3 py-1.5 transition"
+          :class="route.path === '/master-data/suppliers' ? 'bg-white text-cyan-700 shadow-sm ring-1 ring-cyan-200' : 'text-slate-500 hover:text-slate-700'"
+        >
+          供应商
+        </RouterLink>
+        <RouterLink
           to="/master-data/warehouses"
           class="rounded-lg px-3 py-1.5 transition"
           :class="route.path === '/master-data/warehouses' ? 'bg-white text-cyan-700 shadow-sm ring-1 ring-cyan-200' : 'text-slate-500 hover:text-slate-700'"

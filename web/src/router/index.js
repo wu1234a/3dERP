@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '../views/DashboardView.vue'
 import MasterDataView from '../views/MasterDataView.vue'
 import MaterialsView from '../views/MaterialsView.vue'
+import SuppliersView from '../views/SuppliersView.vue'
 import WarehousesView from '../views/WarehousesView.vue'
 import ModuleView from '../views/ModuleView.vue'
 
@@ -28,6 +29,15 @@ const routes = [
     meta: {
       title: '物料',
       description: '树脂、金属粉末、线材等 3D 打印物料主数据。'
+    }
+  },
+  {
+    path: '/master-data/suppliers',
+    name: 'suppliers',
+    component: SuppliersView,
+    meta: {
+      title: '供应商',
+      description: '树脂、金属粉末、线材等物料的供应商主数据。'
     }
   },
   {
