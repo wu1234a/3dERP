@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ThreeDErp.Application.Customers;
+using ThreeDErp.Application.Materials;
 using ThreeDErp.Application.Suppliers;
 using ThreeDErp.Infrastructure.Persistence;
 using ThreeDErp.Infrastructure.Persistence.Repositories;
@@ -25,6 +26,7 @@ public static class DependencyInjection
             }));
 
         services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IMaterialRepository, MaterialRepository>();
         services.AddScoped<ISupplierRepository, SupplierRepository>();
 
         return services;

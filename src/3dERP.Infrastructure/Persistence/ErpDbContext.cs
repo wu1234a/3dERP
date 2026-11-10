@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ThreeDErp.Domain.Customers;
+using ThreeDErp.Domain.Materials;
 using ThreeDErp.Domain.Suppliers;
 
 namespace ThreeDErp.Infrastructure.Persistence;
@@ -11,6 +12,8 @@ namespace ThreeDErp.Infrastructure.Persistence;
 public sealed class ErpDbContext(DbContextOptions<ErpDbContext> options) : DbContext(options)
 {
     public DbSet<Customer> Customers => Set<Customer>();
+
+    public DbSet<Material> Materials => Set<Material>();
 
     public DbSet<Supplier> Suppliers => Set<Supplier>();
 

@@ -1,11 +1,14 @@
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
+import { RouterLink, useRoute } from 'vue-router'
 import {
   createCustomer,
   deactivateCustomer,
   fetchCustomers,
   updateCustomer
 } from '../api/customers'
+
+const route = useRoute()
 
 const PAGE_SIZE_OPTIONS = [10, 20, 50]
 const CODE_PATTERN = /^[A-Z0-9-]+$/
@@ -319,6 +322,24 @@ onMounted(loadCustomers)
           新建客户
         </button>
       </div>
+
+      <!-- 主数据子导航 -->
+      <nav class="mt-4 flex flex-wrap gap-2 text-sm">
+        <RouterLink
+          to="/master-data"
+          class="rounded-lg px-3 py-1.5 transition"
+          :class="route.path === '/master-data' ? 'bg-white text-cyan-700 shadow-sm ring-1 ring-cyan-200' : 'text-slate-500 hover:text-slate-700'"
+        >
+          客户
+        </RouterLink>
+        <RouterLink
+          to="/master-data/materials"
+          class="rounded-lg px-3 py-1.5 transition"
+          :class="route.path === '/master-data/materials' ? 'bg-white text-cyan-700 shadow-sm ring-1 ring-cyan-200' : 'text-slate-500 hover:text-slate-700'"
+        >
+          物料
+        </RouterLink>
+      </nav>
     </div>
 
     <!-- 搜索 + 列表 -->
