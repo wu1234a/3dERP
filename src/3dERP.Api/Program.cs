@@ -26,6 +26,8 @@ builder.Services.AddScoped<SupplierService>();
 builder.Services.AddScoped<WarehouseRequestValidator>();
 builder.Services.AddScoped<WarehouseService>();
 builder.Services.AddScoped<InventoryService>();
+builder.Services.AddScoped<InventoryAlertRuleRequestValidator>();
+builder.Services.AddScoped<InventoryAlertService>();
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ErpDbContext>("database");
 
@@ -69,6 +71,8 @@ app.MapMaterialEndpoints();
 app.MapSupplierEndpoints();
 app.MapWarehouseEndpoints();
 app.MapInventoryEndpoints();
+app.MapInventoryAlertRuleEndpoints();
+app.MapInventoryAlertEndpoints();
 
 app.MapHealthChecks("/health");
 
