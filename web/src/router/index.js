@@ -4,6 +4,7 @@ import MasterDataView from '../views/MasterDataView.vue'
 import MaterialsView from '../views/MaterialsView.vue'
 import SuppliersView from '../views/SuppliersView.vue'
 import WarehousesView from '../views/WarehousesView.vue'
+import InventoryView from '../views/InventoryView.vue'
 import ModuleView from '../views/ModuleView.vue'
 
 const routes = [
@@ -79,10 +80,10 @@ const routes = [
   {
     path: '/inventory',
     name: 'inventory',
-    component: ModuleView,
+    component: InventoryView,
     meta: {
       title: '库存',
-      description: '库存流水、调拨、盘点与可用量。'
+      description: '库存余额查询、入库 / 出库登记与预警列表。'
     }
   },
   {
