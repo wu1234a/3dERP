@@ -82,6 +82,127 @@ namespace ThreeDErp.Infrastructure.Migrations
                     b.ToTable("Customers", (string)null);
                 });
 
+            modelBuilder.Entity("ThreeDErp.Domain.Inventory.InventoryAlertRule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("MinimumQuantity")
+                        .HasPrecision(19, 4)
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<Guid>("WarehouseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("WarehouseId", "MaterialId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_InventoryAlertRules_WarehouseId_MaterialId");
+
+                    b.ToTable("InventoryAlertRules", (string)null);
+                });
+
+            modelBuilder.Entity("ThreeDErp.Domain.Inventory.InventoryBalance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("OnHandQuantity")
+                        .HasPrecision(19, 4)
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<Guid>("WarehouseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaterialId")
+                        .HasDatabaseName("IX_InventoryBalances_MaterialId");
+
+                    b.HasIndex("WarehouseId", "MaterialId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_InventoryBalances_WarehouseId_MaterialId");
+
+                    b.ToTable("InventoryBalances", (string)null);
+                });
+
+            modelBuilder.Entity("ThreeDErp.Domain.Inventory.InventoryMovement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DocumentNo")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("MovementType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("OccurredAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Quantity")
+                        .HasPrecision(19, 4)
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<string>("Remark")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<Guid?>("SupplierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("WarehouseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("IX_InventoryMovements_CustomerId");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("SupplierId")
+                        .HasDatabaseName("IX_InventoryMovements_SupplierId");
+
+                    b.HasIndex("MovementType", "DocumentNo")
+                        .IsUnique()
+                        .HasDatabaseName("IX_InventoryMovements_MovementType_DocumentNo");
+
+                    b.HasIndex("WarehouseId", "MaterialId", "OccurredAtUtc")
+                        .HasDatabaseName("IX_InventoryMovements_WarehouseId_MaterialId_OccurredAtUtc");
+
+                    b.ToTable("InventoryMovements", (string)null);
+                });
+
             modelBuilder.Entity("ThreeDErp.Domain.Materials.Material", b =>
                 {
                     b.Property<Guid>("Id")
@@ -246,6 +367,77 @@ namespace ThreeDErp.Infrastructure.Migrations
                         .HasDatabaseName("IX_Warehouses_Code");
 
                     b.ToTable("Warehouses", (string)null);
+                });
+
+            modelBuilder.Entity("ThreeDErp.Domain.Inventory.InventoryAlertRule", b =>
+                {
+                    b.HasOne("ThreeDErp.Domain.Materials.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ThreeDErp.Domain.Warehouses.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Material");
+
+                    b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("ThreeDErp.Domain.Inventory.InventoryBalance", b =>
+                {
+                    b.HasOne("ThreeDErp.Domain.Materials.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ThreeDErp.Domain.Warehouses.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Material");
+
+                    b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("ThreeDErp.Domain.Inventory.InventoryMovement", b =>
+                {
+                    b.HasOne("ThreeDErp.Domain.Customers.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ThreeDErp.Domain.Materials.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ThreeDErp.Domain.Suppliers.Supplier", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ThreeDErp.Domain.Warehouses.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Material");
+
+                    b.Navigation("Supplier");
+
+                    b.Navigation("Warehouse");
                 });
 #pragma warning restore 612, 618
         }
