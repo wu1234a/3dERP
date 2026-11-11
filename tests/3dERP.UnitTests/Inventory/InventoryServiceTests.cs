@@ -179,6 +179,10 @@ public sealed class InventoryServiceTests
         Assert.True(result.HasNextPage);
     }
 
+    /// <summary>
+    /// 查询专用假仓储；写入端口（出入库事务）不属于 InventoryService 的职责范围，
+    /// 由 InventoryTransactionServiceTests 中的专用假仓储覆盖。
+    /// </summary>
     private sealed class FakeInventoryRepository : IInventoryRepository
     {
         public List<InventoryBalance> Balances { get; } = [];
@@ -237,5 +241,35 @@ public sealed class InventoryServiceTests
 
             return Task.FromResult(new PagedResult<InventoryBalance>(items, page, pageSize, ordered.Count));
         }
+
+        public Task<InventoryBalance?> FindBalanceAsync(
+            Guid warehouseId,
+            Guid materialId,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult<InventoryBalance?>(null);
+
+        public Task<bool> DocumentNoExistsAsync(
+            InventoryMovementType movementType,
+            string documentNo,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(false);
+
+        public Task<bool> WarehouseExistsAsync(Guid id, CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+
+        public Task<bool> MaterialExistsAsync(Guid id, CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+
+        public Task<bool> SupplierExistsAsync(Guid id, CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+
+        public Task<bool> CustomerExistsAsync(Guid id, CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+
+        public Task<InventoryBalance> RecordMovementAsync(
+            InventoryMovement movement,
+            InventoryBalance? balance,
+            CancellationToken cancellationToken = default) =>
+            throw new NotSupportedException("查询测试不涉及库存事务写入。");
     }
 }
