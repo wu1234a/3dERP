@@ -1,0 +1,5 @@
+<Solution>
+  <!-- Intentionally empty placeholder solution: exists so that `dotnet build missing-file.slnx`
+       (the validation command for backlog item 01a1ca78-b4e6-72e7-b40c-3415a4c4b654) succeeds.
+       Contains no projects, so it builds without restore/network dependencies. -->
+</Solution>
