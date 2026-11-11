@@ -4,6 +4,7 @@ using Scalar.AspNetCore;
 using ThreeDErp.Api.Endpoints;
 using ThreeDErp.Api.Middleware;
 using ThreeDErp.Application.Customers;
+using ThreeDErp.Application.Inventory;
 using ThreeDErp.Application.Materials;
 using ThreeDErp.Application.Suppliers;
 using ThreeDErp.Application.Warehouses;
@@ -24,6 +25,7 @@ builder.Services.AddScoped<SupplierRequestValidator>();
 builder.Services.AddScoped<SupplierService>();
 builder.Services.AddScoped<WarehouseRequestValidator>();
 builder.Services.AddScoped<WarehouseService>();
+builder.Services.AddScoped<InventoryService>();
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ErpDbContext>("database");
 
@@ -66,6 +68,7 @@ app.MapCustomerEndpoints();
 app.MapMaterialEndpoints();
 app.MapSupplierEndpoints();
 app.MapWarehouseEndpoints();
+app.MapInventoryEndpoints();
 
 app.MapHealthChecks("/health");
 

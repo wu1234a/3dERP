@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ThreeDErp.Domain.Customers;
+using ThreeDErp.Domain.Inventory;
 using ThreeDErp.Domain.Materials;
 using ThreeDErp.Domain.Suppliers;
 using ThreeDErp.Domain.Warehouses;
@@ -19,6 +20,12 @@ public sealed class ErpDbContext(DbContextOptions<ErpDbContext> options) : DbCon
     public DbSet<Supplier> Suppliers => Set<Supplier>();
 
     public DbSet<Warehouse> Warehouses => Set<Warehouse>();
+
+    public DbSet<InventoryBalance> InventoryBalances => Set<InventoryBalance>();
+
+    public DbSet<InventoryMovement> InventoryMovements => Set<InventoryMovement>();
+
+    public DbSet<InventoryAlertRule> InventoryAlertRules => Set<InventoryAlertRule>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
