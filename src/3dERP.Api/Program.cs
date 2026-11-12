@@ -26,6 +26,8 @@ builder.Services.AddScoped<SupplierService>();
 builder.Services.AddScoped<WarehouseRequestValidator>();
 builder.Services.AddScoped<WarehouseService>();
 builder.Services.AddScoped<InventoryService>();
+builder.Services.AddScoped<InventoryRequestValidator>();
+builder.Services.AddScoped<InventoryTransactionService>();
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ErpDbContext>("database");
 

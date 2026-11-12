@@ -27,3 +27,33 @@ public sealed record InventoryBalanceDto(
         balance.Material.Unit,
         balance.OnHandQuantity);
 }
+
+/// <summary>
+/// 入库 / 出库事务结果视图模型：写入的流水 + 事务提交后的库存余额。
+/// </summary>
+public sealed record InventoryMovementDto(
+    Guid Id,
+    string MovementType,
+    string DocumentNo,
+    Guid WarehouseId,
+    Guid MaterialId,
+    decimal Quantity,
+    Guid? SupplierId,
+    Guid? CustomerId,
+    DateTime OccurredAtUtc,
+    string? Note,
+    decimal OnHandQuantity)
+{
+    public static InventoryMovementDto FromEntity(InventoryMovement movement, InventoryBalance balance) => new(
+        movement.Id,
+        movement.MovementType.ToString(),
+        movement.DocumentNo,
+        movement.WarehouseId,
+        movement.MaterialId,
+        movement.Quantity,
+        movement.SupplierId,
+        movement.CustomerId,
+        movement.OccurredAtUtc,
+        movement.Remark,
+        balance.OnHandQuantity);
+}
