@@ -1,6 +1,5 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
 using ThreeDErp.Application.Common;
 using ThreeDErp.Application.Inventory;
 using ThreeDErp.Domain.Inventory;
