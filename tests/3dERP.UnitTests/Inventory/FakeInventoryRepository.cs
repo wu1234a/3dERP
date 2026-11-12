@@ -198,4 +198,34 @@ public sealed class FakeInventoryRepository : IInventoryRepository
 
         return Task.FromResult(new PagedResult<InventoryAlertDto>(items, page, pageSize, alerts.Count));
     }
+
+    public Task<InventoryBalance?> FindBalanceAsync(
+        Guid warehouseId,
+        Guid materialId,
+        CancellationToken cancellationToken = default) =>
+        Task.FromResult<InventoryBalance?>(null);
+
+    public Task<bool> DocumentNoExistsAsync(
+        InventoryMovementType movementType,
+        string documentNo,
+        CancellationToken cancellationToken = default) =>
+        Task.FromResult(false);
+
+    public Task<bool> WarehouseExistsAsync(Guid id, CancellationToken cancellationToken = default) =>
+        Task.FromResult(true);
+
+    public Task<bool> MaterialExistsAsync(Guid id, CancellationToken cancellationToken = default) =>
+        Task.FromResult(true);
+
+    public Task<bool> SupplierExistsAsync(Guid id, CancellationToken cancellationToken = default) =>
+        Task.FromResult(true);
+
+    public Task<bool> CustomerExistsAsync(Guid id, CancellationToken cancellationToken = default) =>
+        Task.FromResult(true);
+
+    public Task<InventoryBalance> RecordMovementAsync(
+        InventoryMovement movement,
+        InventoryBalance? balance,
+        CancellationToken cancellationToken = default) =>
+        throw new NotSupportedException("查询和预警测试不涉及库存事务写入。");
 }

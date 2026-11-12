@@ -4,7 +4,7 @@ namespace ThreeDErp.Api.Endpoints;
 
 /// <summary>
 /// /api/v1/inventory 端点组。endpoint 只做参数接收与结果映射，
-/// 业务逻辑全部在 InventoryService / InventoryAlertService 中。
+/// 业务逻辑全部在 InventoryService、InventoryAlertService 和 InventoryTransactionService 中。
 /// </summary>
 public static class InventoryEndpoints
 {
@@ -126,6 +126,27 @@ public static class InventoryEndpoints
             })
             .WithName("DeleteInventoryAlertRule")
             .WithSummary("删除库存预警规则（配置数据，物理删除）");
+        group.MapPost("/inbound", async (
+                InventoryTransactionRequest request,
+                InventoryTransactionService inventory,
+                CancellationToken cancellationToken) =>
+            {
+                var movement = await inventory.RecordInboundAsync(request, cancellationToken);
+                return Results.Created($"/api/v1/inventory/movements/{movement.Id}", movement);
+            })
+            .WithName("RecordInventoryInbound")
+            .WithSummary("库存入库：同一事务内累加余额并写入流水，禁止负库存，重复单据号返回 409");
+
+        group.MapPost("/outbound", async (
+                InventoryTransactionRequest request,
+                InventoryTransactionService inventory,
+                CancellationToken cancellationToken) =>
+            {
+                var movement = await inventory.RecordOutboundAsync(request, cancellationToken);
+                return Results.Created($"/api/v1/inventory/movements/{movement.Id}", movement);
+            })
+            .WithName("RecordInventoryOutbound")
+            .WithSummary("库存出库：同一事务内扣减余额并写入流水，库存不足 / 重复单据号返回 409");
 
         return app;
     }
