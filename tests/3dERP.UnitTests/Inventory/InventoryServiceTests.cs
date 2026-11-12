@@ -8,7 +8,7 @@ namespace ThreeDErp.UnitTests.Inventory;
 
 /// <summary>
 /// InventoryService 单元测试：分页 / 关键字规范化、过滤参数透传、
-/// 空结果与仓库 / 物料摘要映射。仓储用假实现。
+/// 空结果与仓库 / 物料摘要映射。仓储用假实现（FakeInventoryRepository）。
 /// </summary>
 public sealed class InventoryServiceTests
 {
@@ -177,65 +177,5 @@ public sealed class InventoryServiceTests
         Assert.Equal(2, result.Items.Count);
         Assert.True(result.HasPreviousPage);
         Assert.True(result.HasNextPage);
-    }
-
-    private sealed class FakeInventoryRepository : IInventoryRepository
-    {
-        public List<InventoryBalance> Balances { get; } = [];
-
-        public int? LastPage { get; private set; }
-
-        public int? LastPageSize { get; private set; }
-
-        public Guid? LastWarehouseId { get; private set; }
-
-        public Guid? LastMaterialId { get; private set; }
-
-        public string? LastKeyword { get; private set; }
-
-        public Task<PagedResult<InventoryBalance>> FindBalancesAsync(
-            int page,
-            int pageSize,
-            Guid? warehouseId,
-            Guid? materialId,
-            string? keyword,
-            CancellationToken cancellationToken = default)
-        {
-            LastPage = page;
-            LastPageSize = pageSize;
-            LastWarehouseId = warehouseId;
-            LastMaterialId = materialId;
-            LastKeyword = keyword;
-
-            IEnumerable<InventoryBalance> query = Balances;
-
-            if (warehouseId is not null)
-            {
-                query = query.Where(balance => balance.WarehouseId == warehouseId);
-            }
-
-            if (materialId is not null)
-            {
-                query = query.Where(balance => balance.MaterialId == materialId);
-            }
-
-            if (keyword is not null)
-            {
-                query = query.Where(balance =>
-                    balance.Material.Code.Contains(keyword, StringComparison.OrdinalIgnoreCase)
-                    || balance.Material.Name.Contains(keyword, StringComparison.OrdinalIgnoreCase));
-            }
-
-            var ordered = query
-                .OrderBy(balance => balance.Warehouse.Code)
-                .ThenBy(balance => balance.Material.Code)
-                .ToList();
-            var items = ordered
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-
-            return Task.FromResult(new PagedResult<InventoryBalance>(items, page, pageSize, ordered.Count));
-        }
     }
 }
