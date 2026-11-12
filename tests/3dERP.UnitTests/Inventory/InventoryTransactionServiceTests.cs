@@ -443,5 +443,37 @@ public sealed class InventoryTransactionServiceTests
             string? keyword,
             CancellationToken cancellationToken = default) =>
             Task.FromResult(new PagedResult<InventoryBalance>([], 1, pageSize, 0));
+
+        public Task<PagedResult<InventoryAlertRule>> FindAlertRulesAsync(
+            int page,
+            int pageSize,
+            Guid? warehouseId,
+            Guid? materialId,
+            bool includeDisabled,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(new PagedResult<InventoryAlertRule>([], page, pageSize, 0));
+
+        public Task<InventoryAlertRule?> FindAlertRuleByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
+            Task.FromResult<InventoryAlertRule?>(null);
+
+        public Task<bool> AlertRuleExistsAsync(Guid warehouseId, Guid materialId, Guid? excludeId = null, CancellationToken cancellationToken = default) =>
+            Task.FromResult(false);
+
+        public Task AddAlertRuleAsync(InventoryAlertRule rule, CancellationToken cancellationToken = default) =>
+            Task.CompletedTask;
+
+        public Task UpdateAlertRuleAsync(InventoryAlertRule rule, CancellationToken cancellationToken = default) =>
+            Task.CompletedTask;
+
+        public Task DeleteAlertRuleAsync(InventoryAlertRule rule, CancellationToken cancellationToken = default) =>
+            Task.CompletedTask;
+
+        public Task<PagedResult<InventoryAlertDto>> FindAlertsAsync(
+            int page,
+            int pageSize,
+            Guid? warehouseId,
+            Guid? materialId,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(new PagedResult<InventoryAlertDto>([], page, pageSize, 0));
     }
 }
